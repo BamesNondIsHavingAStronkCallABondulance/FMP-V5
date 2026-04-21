@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1199f0dc36655247bf236b580a403c0, type: 3}
+  m_Name: Desperation
+  m_EditorClassIdentifier: Assembly-CSharp::HarryGame.CardIndex
+  cardName: Desperation
+  damage: 8
+  block: 0
+  cardType: 00000000
+  cardSprite: {fileID: 4315214628464698562, guid: 2264a7cc2b532c548b8db34cc1a80c85, type: 3}
+  cardDescription: Lose 1 health, Deal 8 damage
