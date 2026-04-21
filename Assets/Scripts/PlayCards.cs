@@ -8,9 +8,16 @@ using UnityEngine.UIElements;
 
 public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    public LineRenderer lineRenderer;
 
-    public GameObject card;
+    public LineRenderer lineRenderer;
+    public LineCollision LineCollision;
+
+    public GameObject card1;
+    public GameObject card2;
+    public GameObject card3;
+
+
+
     public EventSystem eventSystem;
 
     private Vector2 originalPosition;
@@ -26,7 +33,9 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     private float cardDelay = 1.5f;
 
-    //-2.7, -2.2 for card 1
+
+
+    //Cannon Unselect enemy when playing a card, try to fix
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -44,8 +53,6 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     {
 
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); //Input.mousePosition;
-
-        print(startMousePos.x);
 
         /* if (mousePos.x >= -2.7f)
          {
@@ -120,30 +127,35 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
         lineRenderer.SetPosition(0, new Vector3(0, 0));
         lineRenderer.SetPosition(1, new Vector3(0, 0));
+
+        enemyIsSelected = false;
+
+        card1Selected = false;
+        card2Selected = false;
+        card3Selected = false;
     }
 
     private void Start()
     {
-        print(transform.position);
         originalScale = transform.localScale;
-        card = GetComponent<GameObject>();
+
+        cardIsPlayed = false;
     }
 
     private void Update()
     {
         DelayNewCard();
+
+        print(cardIsPlayed);
     }
 
     void DelayNewCard()
     {
         if (enemyIsSelected)
         {
-            cardIsPlayed = true;
-
             if (cardDelay <= 0)
             {
                 cardDelay = 1.5f;
-                cardIsPlayed = false;
                 enemyIsSelected = false;
                 eventSystem.enabled = true;
             }
@@ -151,6 +163,7 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             {
                 cardDelay -= Time.deltaTime;
                 eventSystem.enabled = false;
+                cardIsPlayed = true;
             }
 
         }

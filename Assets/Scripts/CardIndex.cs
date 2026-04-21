@@ -9,9 +9,9 @@ namespace HarryGame
     {
         public string cardName;
 
-        public string damage;
+        public int damage;
 
-        public string block;
+        public int block;
 
         public List<CardType> cardType;
 
