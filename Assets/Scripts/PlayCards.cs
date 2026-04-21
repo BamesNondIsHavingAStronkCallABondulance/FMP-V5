@@ -37,6 +37,9 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     //Cannon Unselect enemy when playing a card, try to fix
 
+    //Need to put this script on card manager with access to all 3 cards to prevent multiple instances running
+
+
     public void OnBeginDrag(PointerEventData eventData)
     {
 

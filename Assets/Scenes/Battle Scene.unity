@@ -170,7 +170,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayCards
   lineRenderer: {fileID: 1709510927}
-  card: {fileID: 39453369}
+  LineCollision: {fileID: 1709510928}
+  card1: {fileID: 0}
+  card2: {fileID: 0}
+  card3: {fileID: 0}
   eventSystem: {fileID: 76177903}
   enemyIsSelected: 0
   cardIsPlayed: 0
@@ -3116,7 +3119,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayCards
   lineRenderer: {fileID: 1709510927}
-  card: {fileID: 1280759754}
+  LineCollision: {fileID: 1709510928}
+  card1: {fileID: 0}
+  card2: {fileID: 0}
+  card3: {fileID: 0}
   eventSystem: {fileID: 76177903}
   enemyIsSelected: 0
   cardIsPlayed: 0
@@ -3174,7 +3180,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayCards
   lineRenderer: {fileID: 1709510927}
-  card: {fileID: 1297848209}
+  LineCollision: {fileID: 1709510928}
+  card1: {fileID: 0}
+  card2: {fileID: 0}
+  card3: {fileID: 0}
   eventSystem: {fileID: 76177903}
   enemyIsSelected: 0
   cardIsPlayed: 0
