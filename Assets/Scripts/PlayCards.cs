@@ -10,13 +10,8 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 {
 
     public LineRenderer lineRenderer;
-    public LineCollision LineCollision;
 
-    public GameObject card1;
-    public GameObject card2;
-    public GameObject card3;
-
-
+    public GameObject[] cards;
 
     public EventSystem eventSystem;
 
@@ -42,18 +37,27 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-
         originalPosition = transform.position;
-        transform.localScale += new Vector3(0.2f, 0.2f, 0);
 
-        startMousePos = Input.mousePosition;
+        //transform.localScale += new Vector3(0.2f, 0.2f, 0);
 
         startMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //Vector2 worldPoint2d = new Vector2(worldPoint.x, worldPoint.y);
+
+        print(startMousePos);
+
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+
+        Transform cardSelected=null;
+
+        //reset scale to normal
+        for (int i = 0; i < cards.Length; i++)
+        {
+            cards[i].transform.localScale = originalScale;
+        }
 
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); //Input.mousePosition;
 
@@ -66,14 +70,15 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         // Try to get line to only start if above the card
 
         
-        if (mousePos.y > 0 && (mousePos.x < 1 && mousePos.x > -1))
+        if (mousePos.y > 0 && (mousePos.x < 1 && mousePos.x > -1)) //When mouse is near enemy
         {
-            if (-3.7f < startMousePos.x && startMousePos.x < -1.7f)
+            if (-3.7f < startMousePos.x && startMousePos.x < -1.7f) //What card is selected
             {
                 lineRenderer.SetPosition(0, new Vector3(-2.7f, -2.2f));
                 lineRenderer.SetPosition(1, new Vector3(0, 1));
 
                 card1Selected = true;
+                cardSelected = cards[0].transform;
             }
 
             if (-1f < startMousePos.x && startMousePos.x < 1f)
@@ -82,6 +87,8 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                 lineRenderer.SetPosition(1, new Vector3(0, 1));
 
                 card2Selected = true;
+                cardSelected = cards[1].transform;
+
             }
 
             if (1.7f < startMousePos.x && startMousePos.x < 3.7f)
@@ -90,6 +97,8 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                 lineRenderer.SetPosition(1, new Vector3(0, 1));
 
                 card3Selected = true;
+                cardSelected = cards[2].transform;
+
             }
 
 
@@ -99,7 +108,7 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         else
         {
 
-            if (-3.7f < startMousePos.x && startMousePos.x < -1.7f)
+            if (-3.7f < startMousePos.x && startMousePos.x < -1.7f) //when mouse is not near enemy
             {
                 lineRenderer.SetPosition(0, new Vector3(-2.7f, -2.2f));
                 lineRenderer.SetPosition(1, new Vector3(mousePos.x, mousePos.y));
@@ -118,6 +127,12 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
 
             enemyIsSelected = false;
+        }
+
+        //set scale of currently selected card
+        if( cardSelected != null )
+        {
+            cardSelected.transform.localScale = Vector3.one * 2;
         }
 
     }
@@ -143,6 +158,8 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         originalScale = transform.localScale;
 
         cardIsPlayed = false;
+
+        //cards = GameObject.FindGameObjectsWithTag("card");
     }
 
     private void Update()
@@ -161,6 +178,7 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                 cardDelay = 1.5f;
                 enemyIsSelected = false;
                 eventSystem.enabled = true;
+                cardIsPlayed = false;
             }
             else
             {

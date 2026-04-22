@@ -16,9 +16,7 @@ public class CombatScript : MonoBehaviour
 
     CardIndex cardData;
     EnemyIndex enemyData;
-    public PlayCards Card1;
-    public PlayCards Card2;
-    public PlayCards Card3;
+    public PlayCards playCardsScript;
     public HandManager handManagerScript;
 
     int playerHealth = 20;
@@ -47,20 +45,20 @@ public class CombatScript : MonoBehaviour
 
     private void Update()
     {
-        if (Card1.enemyIsSelected)
+        if (playCardsScript.enemyIsSelected)
         {
-            //check type of card played (needs to be added to hand manager) COMPLETED
-            Card1Logic();
-        }
-
-        if (Card2.enemyIsSelected)
-        {
-            Card2Logic();
-        }
-
-        if (Card3.enemyIsSelected)
-        {
-            Card3Logic();
+            if (playCardsScript.card1Selected)
+            {
+                Card1Logic();
+            }
+            if (playCardsScript.card2Selected)
+            {
+                Card2Logic();
+            }
+            if (playCardsScript.card3Selected)
+            {
+                Card3Logic();
+            }
         }
     }
 
@@ -100,6 +98,8 @@ public class CombatScript : MonoBehaviour
         {
             currentEnemy.health -= handManagerScript.cardData3.damage;
             enemyHealth.text = deathCultist.health.ToString();
+
+            print("I DOING THINGS");
         }
     }
 }

@@ -128,10 +128,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 39453370}
-  - component: {fileID: 39453371}
   m_Layer: 0
   m_Name: Card 3
-  m_TagString: Untagged
+  m_TagString: card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -157,29 +156,6 @@ Transform:
   - {fileID: 1117977572}
   m_Father: {fileID: 679746117}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &39453371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 39453369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26ac90d203afe54489d86c257e896eda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayCards
-  lineRenderer: {fileID: 1709510927}
-  LineCollision: {fileID: 1709510928}
-  card1: {fileID: 0}
-  card2: {fileID: 0}
-  card3: {fileID: 0}
-  eventSystem: {fileID: 76177903}
-  enemyIsSelected: 0
-  cardIsPlayed: 0
-  card1Selected: 0
-  card2Selected: 0
-  card3Selected: 0
 --- !u!1 &54674849
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,8 +1032,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1709510926}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &438282929 stripped
@@ -1570,13 +1545,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 724885838}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.48948, y: -3.74041, z: 0}
   m_LocalScale: {x: 0.8875, y: 0.8125, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 679746117}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1001099961}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &735666841
 GameObject:
@@ -2452,6 +2427,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001099961}
   - component: {fileID: 1001099960}
+  - component: {fileID: 1001099962}
   m_Layer: 0
   m_Name: CombatManager
   m_TagString: Untagged
@@ -2476,9 +2452,7 @@ MonoBehaviour:
   currentEnemy: {fileID: 11400000, guid: 86ac01adc6b86924e96f515a53cc7f44, type: 2}
   deathCultist: {fileID: 11400000, guid: 86ac01adc6b86924e96f515a53cc7f44, type: 2}
   otherEnemy: {fileID: 11400000, guid: 2c47f1e2cb54333419045a18c4ec8d6c, type: 2}
-  Card1: {fileID: 1280759756}
-  Card2: {fileID: 1297848211}
-  Card3: {fileID: 39453371}
+  playCardsScript: {fileID: 1001099962}
   handManagerScript: {fileID: 404229470}
 --- !u!4 &1001099961
 Transform:
@@ -2494,8 +2468,33 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1710371868}
+  - {fileID: 1709510926}
+  - {fileID: 724885839}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1001099962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001099959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ac90d203afe54489d86c257e896eda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayCards
+  lineRenderer: {fileID: 1709510927}
+  cards:
+  - {fileID: 1280759754}
+  - {fileID: 1297848209}
+  - {fileID: 39453369}
+  eventSystem: {fileID: 76177903}
+  enemyIsSelected: 0
+  cardIsPlayed: 0
+  card1Selected: 0
+  card2Selected: 0
+  card3Selected: 0
 --- !u!1 &1048814445
 GameObject:
   m_ObjectHideFlags: 0
@@ -3073,23 +3072,23 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1280759755}
-  - component: {fileID: 1280759756}
   m_Layer: 0
   m_Name: Card 1
-  m_TagString: Untagged
+  m_TagString: card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &1280759755
-RectTransform:
+--- !u!4 &1280759755
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1280759754}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -3, y: 0, z: 0}
   m_LocalScale: {x: 1.1267605, y: 1.2307692, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3101,34 +3100,6 @@ RectTransform:
   - {fileID: 203009081}
   m_Father: {fileID: 679746117}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1280759756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1280759754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26ac90d203afe54489d86c257e896eda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayCards
-  lineRenderer: {fileID: 1709510927}
-  LineCollision: {fileID: 1709510928}
-  card1: {fileID: 0}
-  card2: {fileID: 0}
-  card3: {fileID: 0}
-  eventSystem: {fileID: 76177903}
-  enemyIsSelected: 0
-  cardIsPlayed: 0
-  card1Selected: 0
-  card2Selected: 0
-  card3Selected: 0
 --- !u!1 &1297848209
 GameObject:
   m_ObjectHideFlags: 0
@@ -3138,10 +3109,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1297848210}
-  - component: {fileID: 1297848211}
   m_Layer: 0
   m_Name: Card 2
-  m_TagString: Untagged
+  m_TagString: card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3167,29 +3137,6 @@ Transform:
   - {fileID: 1668331228}
   m_Father: {fileID: 679746117}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1297848211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1297848209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26ac90d203afe54489d86c257e896eda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayCards
-  lineRenderer: {fileID: 1709510927}
-  LineCollision: {fileID: 1709510928}
-  card1: {fileID: 0}
-  card2: {fileID: 0}
-  card3: {fileID: 0}
-  eventSystem: {fileID: 76177903}
-  enemyIsSelected: 0
-  cardIsPlayed: 0
-  card1Selected: 0
-  card2Selected: 0
-  card3Selected: 0
 --- !u!1 &1324698039
 GameObject:
   m_ObjectHideFlags: 0
@@ -3956,7 +3903,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1709510926}
   - component: {fileID: 1709510927}
-  - component: {fileID: 1709510929}
   - component: {fileID: 1709510928}
   m_Layer: 0
   m_Name: LineDraw
@@ -3974,11 +3920,11 @@ Transform:
   m_GameObject: {fileID: 1709510925}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.48948, y: -2.74041, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 404229471}
+  m_Father: {fileID: 1001099961}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &1709510927
 LineRenderer:
@@ -4097,58 +4043,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1709510925}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 767dea7f7a365724bbf7e705052ec5f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LineCollision
   isColliding: 0
---- !u!61 &1709510929
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1709510925}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!1 &1710371867
 GameObject:
   m_ObjectHideFlags: 0
@@ -4754,7 +4654,6 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 76177904}
   - {fileID: 4223117746946328993}
-  - {fileID: 724885839}
   - {fileID: 404229471}
   - {fileID: 349237056}
   - {fileID: 959054223}

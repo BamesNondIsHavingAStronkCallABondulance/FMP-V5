@@ -10,6 +10,7 @@ public class HandManager : MonoBehaviour
 {
     public GameObject cardPrefab;
     public CardIndex cardData1, cardData2, cardData3;
+    private ListOfCards listOfCards;
 
     [Header("Card1")]
 
@@ -90,5 +91,17 @@ public class HandManager : MonoBehaviour
         card3Type.text = cardData3.cardType[0].ToString();
         card3Image.color = typeColours[(int)cardData3.cardType[0]];
     }
-    
+
+
+    #region DeckLogic
+
+    //
+
+
+
+
+
+
+    #endregion
+
 }
