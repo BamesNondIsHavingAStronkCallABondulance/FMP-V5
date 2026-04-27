@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DeathCultist
   m_EditorClassIdentifier: Assembly-CSharp::EnemyIndex
   enemyName: DeathCultist
-  loadEnemy: {fileID: 0}
+  enemySprite: {fileID: 547910251586419615, guid: d69a74550e6ba3d4cb4ed308bd1faaed, type: 3}
   attack1: 3
   attack2: 8
   attack3: 0

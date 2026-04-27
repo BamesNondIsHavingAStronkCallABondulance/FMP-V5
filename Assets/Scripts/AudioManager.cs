@@ -13,8 +13,10 @@ public class AudioManager : MonoBehaviour
     public const string MUSIC_KEY = "MusicVolume";
     public const string SFX_KEY = "SFXVolume";
 
+    //What scene is active
+
     bool frontend = true;
-    bool dummyScene = false;
+    bool combatScene = false;
 
     public Sound[] sounds;
 
@@ -55,7 +57,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        PlayMusicClip("Frontend");
+        PlayMusicClip("MainMenu");
     }
 
     private void Update()
@@ -81,16 +83,16 @@ public class AudioManager : MonoBehaviour
                 StopMusicClip("DummyScene");
                 PlayMusicClip("Frontend");
                 frontend = false;
-                dummyScene = true;
+                combatScene = true;
             }
         }
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(1))
         {
-            if (dummyScene)
+            if (combatScene)
             {
                 StopMusicClip("Frontend");
                 PlayMusicClip("DummyScene");
-                dummyScene = false;
+                combatScene = false;
                 frontend = true;
             }
         }

@@ -1035,6 +1035,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &423058964
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 423058966}
+  - component: {fileID: 423058965}
+  m_Layer: 0
+  m_Name: ListofCards
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &423058965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423058964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c91d6a1270baf440a2a94f2d2f74b7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ListOfCards
+  bloodPact: {fileID: 11400000, guid: 0185f2a63b939e349a449e7eb3e721a0, type: 2}
+  desperation: {fileID: 11400000, guid: 1f2c36ebaedf12b4ba1b0e47a03a1544, type: 2}
+  dive: {fileID: 11400000, guid: de13535b0f1c9c340aec0818b44eb074, type: 2}
+  dodge: {fileID: 11400000, guid: 13205a742890bfd47bb387c4fc4ec4b3, type: 2}
+  fireBolt: {fileID: 11400000, guid: 9b3c924e7ffab0a4480b57bfd5bc0c97, type: 2}
+  punch: {fileID: 11400000, guid: a0e1adba3f6b3974993fca117e3357a6, type: 2}
+--- !u!4 &423058966
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423058964}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.80476, y: -0.43269, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &438282929 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2239551902048521845, guid: 36f3bb20b2631c644b3c7670591cc699, type: 3}
@@ -1521,6 +1571,37 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &721534546
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 721534547}
+  m_Layer: 0
+  m_Name: RewardPopUp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &721534547
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721534546}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.4045, y: 0.51682, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &724885838
 GameObject:
   m_ObjectHideFlags: 0
@@ -2449,7 +2530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatScript
   enemyPosition: {fileID: 1710371867}
   enemyHealth: {fileID: 2065985027}
-  currentEnemy: {fileID: 11400000, guid: 86ac01adc6b86924e96f515a53cc7f44, type: 2}
+  currentEnemy: {fileID: 11400000, guid: 9b63241804d98754ab28ba7be67b76ce, type: 2}
   deathCultist: {fileID: 11400000, guid: 86ac01adc6b86924e96f515a53cc7f44, type: 2}
   otherEnemy: {fileID: 11400000, guid: 2c47f1e2cb54333419045a18c4ec8d6c, type: 2}
   playCardsScript: {fileID: 1001099962}
@@ -4658,3 +4739,5 @@ SceneRoots:
   - {fileID: 349237056}
   - {fileID: 959054223}
   - {fileID: 1001099961}
+  - {fileID: 423058966}
+  - {fileID: 721534547}

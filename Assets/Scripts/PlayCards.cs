@@ -24,6 +24,8 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     public bool enemyIsSelected;
     public bool cardIsPlayed;
 
+    bool canCardBePlayed = true;
+
     public bool card1Selected, card2Selected, card3Selected;
 
     private float cardDelay = 1.5f;
@@ -38,13 +40,12 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     public void OnBeginDrag(PointerEventData eventData)
     {
         originalPosition = transform.position;
+        originalScale = transform.localScale;
 
         //transform.localScale += new Vector3(0.2f, 0.2f, 0);
 
         startMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //Vector2 worldPoint2d = new Vector2(worldPoint.x, worldPoint.y);
-
-        print(startMousePos);
 
     }
 
@@ -103,7 +104,7 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
 
 
-            enemyIsSelected = true;
+          //  enemyIsSelected = true;
         }
         else
         {
@@ -112,17 +113,20 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
             {
                 lineRenderer.SetPosition(0, new Vector3(-2.7f, -2.2f));
                 lineRenderer.SetPosition(1, new Vector3(mousePos.x, mousePos.y));
+                cardSelected = cards[0].transform;
             }
 
             if (-1f < startMousePos.x && startMousePos.x < 1f)
             {
                 lineRenderer.SetPosition(0, new Vector3(0, -2.2f));
                 lineRenderer.SetPosition(1, new Vector3(mousePos.x, mousePos.y));
+                cardSelected = cards[1].transform;
             }
             if (1.7f < startMousePos.x && startMousePos.x < 3.7f)
             {
                 lineRenderer.SetPosition(0, new Vector3(2.7f, -2.2f));
                 lineRenderer.SetPosition(1, new Vector3(mousePos.x, mousePos.y));
+                cardSelected = cards[2].transform;
             }
 
 
@@ -132,30 +136,40 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         //set scale of currently selected card
         if( cardSelected != null )
         {
-            cardSelected.transform.localScale = Vector3.one * 2;
+            cardSelected.transform.localScale = Vector3.one * 1.2f;
         }
 
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (mousePos.y > 0 && (mousePos.x < 1 && mousePos.x > -1))
+        {
+            if (-3.7f < startMousePos.x && startMousePos.x < -1.7f)
+            {
+                enemyIsSelected = true;
+            }
+
+            if (-1f < startMousePos.x && startMousePos.x < 1f)
+            {
+                enemyIsSelected = true;
+            }
+
+            if (1.7f < startMousePos.x && startMousePos.x < 3.7f)
+            {
+                enemyIsSelected = true;
+            }
+        }
 
         transform.position = new Vector2(originalPosition.x, originalPosition.y);
         transform.localScale = originalScale;
 
         lineRenderer.SetPosition(0, new Vector3(0, 0));
         lineRenderer.SetPosition(1, new Vector3(0, 0));
-
-        enemyIsSelected = false;
-
-        card1Selected = false;
-        card2Selected = false;
-        card3Selected = false;
     }
 
     private void Start()
     {
-        originalScale = transform.localScale;
 
         cardIsPlayed = false;
 
@@ -179,14 +193,31 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
                 enemyIsSelected = false;
                 eventSystem.enabled = true;
                 cardIsPlayed = false;
+
+                enemyIsSelected = false;
+
+                card1Selected = false;
+                card2Selected = false;
+                card3Selected = false;
+
+                canCardBePlayed = true;
             }
             else
             {
                 cardDelay -= Time.deltaTime;
                 eventSystem.enabled = false;
-                cardIsPlayed = true;
-            }
 
+                if(canCardBePlayed == true)
+                {
+                    cardIsPlayed = true;
+                    canCardBePlayed = false;
+                }
+                else
+                {
+                    cardIsPlayed = false;
+                }
+
+            }
         }
     }
 }

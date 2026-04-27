@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemyIndex : ScriptableObject
 {
     public string enemyName;
-    public Sprite loadEnemy;
+    public Sprite enemySprite;
 
 
     [Header("Attacks")]
