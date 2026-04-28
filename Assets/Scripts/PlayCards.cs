@@ -179,8 +179,6 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     private void Update()
     {
         DelayNewCard();
-
-        print(cardIsPlayed);
     }
 
     void DelayNewCard()

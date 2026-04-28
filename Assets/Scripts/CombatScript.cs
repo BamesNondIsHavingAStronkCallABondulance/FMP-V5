@@ -9,10 +9,21 @@ public class CombatScript : MonoBehaviour
     public const string PLAYER_DEFENCE = "Player Defence";
 
     public GameObject enemyPosition;
-    public TMP_Text enemyHealth;
+    public TMP_Text enemyHealthText;
     public EnemyIndex currentEnemy;
     public EnemyIndex deathCultist;
     public EnemyIndex otherEnemy;
+    public TMP_Text playerHealthText;
+
+    int playerHealth;
+    int playerDefence;
+
+    int currentAttack;
+    int currentDefend;
+
+    bool enemyTurn;
+    bool playerTurn;
+    bool playerActionTaken;
 
     CardIndex cardData;
     EnemyIndex enemyData;
@@ -21,18 +32,17 @@ public class CombatScript : MonoBehaviour
 
     bool enemyIsDead;
 
-    int playerHealth = 20;
-    int mana = 3;
-
     private void Start()
     {
-        PlayerPrefs.GetFloat(PLAYER_HEALTH);
+        playerHealth = PlayerPrefs.GetInt(PLAYER_HEALTH, 30);
 
         ResetEnemies();
 
         SpawningNewEnemy();
 
-        enemyHealth.text = currentEnemy.health.ToString();
+        enemyHealthText.text = currentEnemy.health.ToString();
+
+        playerTurn = true;
 
     }
 
@@ -40,6 +50,11 @@ public class CombatScript : MonoBehaviour
     {
         AttackingEnemy();
         IsEnemyDead();
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            EnemyAttackLogic();
+        }
     }
 
 
@@ -53,7 +68,18 @@ public class CombatScript : MonoBehaviour
     public void SpawningNewEnemy()
     {
         currentEnemy.health = deathCultist.health;
+
+        currentEnemy.attack1 = deathCultist.attack1;
+        currentEnemy.attack2 = deathCultist.attack2;
+        currentEnemy.attack3 = deathCultist.attack3;
+        currentEnemy.attack4 = deathCultist.attack4;
+
+        currentEnemy.defend1 = deathCultist.defend1;
+        currentEnemy.defend2 = deathCultist.defend2;
+        currentEnemy.defend3 = deathCultist.defend3;
+        currentEnemy.defend4 = deathCultist.defend4;
     }
+
 
     public void SpawnDeathCultist()
     {
@@ -72,21 +98,64 @@ public class CombatScript : MonoBehaviour
 
     public void AttackingEnemy()
     {
-
-        if (playCardsScript.enemyIsSelected)
+        if (playerTurn)
         {
-            if (playCardsScript.card1Selected && playCardsScript.cardIsPlayed)
+            if (playCardsScript.enemyIsSelected)
             {
-                Card1Logic();
+                if (playCardsScript.card1Selected && playCardsScript.cardIsPlayed)
+                {
+                    Card1Logic();
+                }
+                if (playCardsScript.card2Selected && playCardsScript.cardIsPlayed)
+                {
+                    Card2Logic();
+                }
+                if (playCardsScript.card3Selected && playCardsScript.cardIsPlayed)
+                {
+                    Card3Logic();
+                }
             }
-            if (playCardsScript.card2Selected && playCardsScript.cardIsPlayed)
+        }
+
+        void Card1Logic()
+        {
+            if (handManagerScript.card1Type.text == "attack")
             {
-                Card2Logic();
+                currentEnemy.health -= handManagerScript.cardData1.damage;
+                enemyHealthText.text = currentEnemy.health.ToString();
+
+                playerActionTaken = true;
             }
-            if (playCardsScript.card3Selected && playCardsScript.cardIsPlayed)
+        }
+
+        void Card2Logic()
+        {
+            if (handManagerScript.card2Type.text == "attack")
             {
-                Card3Logic();
+                currentEnemy.health -= handManagerScript.cardData2.damage;
+                enemyHealthText.text = currentEnemy.health.ToString();
+
+                playerActionTaken = true;
             }
+        }
+
+        void Card3Logic()
+        {
+            if (handManagerScript.card3Type.text == "Attack")
+            {
+                currentEnemy.health -= handManagerScript.cardData3.damage;
+                enemyHealthText.text = currentEnemy.health.ToString();
+
+                playerActionTaken = true;
+            }
+        }
+
+        IsEnemyDead();
+
+        if (playerActionTaken && playerTurn)
+        {
+            enemyTurn = true;
+            playerTurn = false;
         }
     }
 
@@ -96,6 +165,66 @@ public class CombatScript : MonoBehaviour
         {
             enemyIsDead = true;
         }
+    }
+
+    #endregion
+
+    #region Enemy attacks
+
+    public void EnemyAttackLogic()
+    {
+
+        if (enemyTurn)
+        {
+            enemyTurn = false;
+
+            int[] possibleEnemyAttacks =
+{
+            currentEnemy.attack1, currentEnemy.attack2, currentEnemy.attack3, currentEnemy.attack4
+            };
+
+            int[] possibleEnemyDefends =
+            {
+            currentEnemy.defend1, currentEnemy.defend2, currentEnemy.defend3, currentEnemy.defend4
+            };
+
+            bool validAttack = false;
+            bool validDefend = false;
+            bool validAction = false;
+
+            while (!validAction)
+            {
+                int currentAttackSelection = Random.Range(0, possibleEnemyAttacks.Length);
+                currentAttack = possibleEnemyAttacks[currentAttackSelection];
+
+                int currentDefendSelection = Random.Range(0, possibleEnemyAttacks.Length);
+                currentDefend = possibleEnemyAttacks[currentDefendSelection];
+
+                if (currentAttack != 0)
+                {
+                    validAttack = true;
+                }
+                if (currentDefend != 0)
+                {
+                    validDefend = true;
+                }
+
+                if (validAttack || validDefend)
+                {
+                    validAction = true;
+                }
+            }
+
+            playerHealthText.text = (playerHealth - currentAttack).ToString();
+            playerHealth -= currentAttack;
+
+            playerTurn = true;
+        }
+
+        //Goal is to randomly select 1 attack and one defnd from each array
+        //If both options are null, select again until at least one option is not null;
+        //COMPLETED
+
     }
 
     #endregion
@@ -115,31 +244,4 @@ public class CombatScript : MonoBehaviour
 
 
     #endregion
-
-    void Card1Logic()
-    {
-        if (handManagerScript.card1Type.text == "attack")
-        {
-            currentEnemy.health -= handManagerScript.cardData1.damage;
-            enemyHealth.text = currentEnemy.health.ToString();
-        }
-    }
-
-    void Card2Logic()
-    {
-        if (handManagerScript.card2Type.text == "attack")
-        {
-            currentEnemy.health -= handManagerScript.cardData2.damage;
-            enemyHealth.text = currentEnemy.health.ToString();
-        }
-    }
-
-    void Card3Logic()
-    {
-        if (handManagerScript.card3Type.text == "Attack")
-        {
-            currentEnemy.health -= handManagerScript.cardData3.damage;
-            enemyHealth.text = currentEnemy.health.ToString();
-        }
-    }
 }
