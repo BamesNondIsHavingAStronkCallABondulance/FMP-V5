@@ -10,10 +10,12 @@ public class CombatScript : MonoBehaviour
 
     public GameObject enemyPosition;
     public TMP_Text enemyHealthText;
+    public TMP_Text enemyDefenceText;
     public EnemyIndex currentEnemy;
     public EnemyIndex deathCultist;
     public EnemyIndex otherEnemy;
     public TMP_Text playerHealthText;
+    public TMP_Text turnTrackerText;
 
     int playerHealth;
     int playerDefence;
@@ -49,14 +51,23 @@ public class CombatScript : MonoBehaviour
     private void Update()
     {
         AttackingEnemy();
+        EnemyAttackLogic();
         IsEnemyDead();
-
-        if(Input.GetMouseButtonDown(0))
-        {
-            EnemyAttackLogic();
-        }
+        TurnTracking();
     }
 
+    public void TurnTracking()
+    {
+        if (playerTurn)
+        {
+            turnTrackerText.text = ("Player Turn");
+        }
+        else
+        {
+            turnTrackerText.text = ("Enemy Turn");
+            print("anemone");
+        }
+    }
 
 
     #region Spawning random enemy
@@ -117,16 +128,16 @@ public class CombatScript : MonoBehaviour
             }
         }
 
-        void Card1Logic()
-        {
-            if (handManagerScript.card1Type.text == "attack")
+            void Card1Logic()
             {
-                currentEnemy.health -= handManagerScript.cardData1.damage;
-                enemyHealthText.text = currentEnemy.health.ToString();
+                if (handManagerScript.card1Type.text == "attack")
+                {
+                    currentEnemy.health -= handManagerScript.cardData1.damage;
+                    enemyHealthText.text = currentEnemy.health.ToString();
 
-                playerActionTaken = true;
+                    playerActionTaken = true;
+                }
             }
-        }
 
         void Card2Logic()
         {
@@ -143,7 +154,13 @@ public class CombatScript : MonoBehaviour
         {
             if (handManagerScript.card3Type.text == "Attack")
             {
-                currentEnemy.health -= handManagerScript.cardData3.damage;
+                int accountForEnemyShield = handManagerScript.cardData3.damage - currentDefend;
+
+                if (accountForEnemyShield > 0)
+                {
+                    currentEnemy.health -= accountForEnemyShield;
+                }
+
                 enemyHealthText.text = currentEnemy.health.ToString();
 
                 playerActionTaken = true;
@@ -151,12 +168,6 @@ public class CombatScript : MonoBehaviour
         }
 
         IsEnemyDead();
-
-        if (playerActionTaken && playerTurn)
-        {
-            enemyTurn = true;
-            playerTurn = false;
-        }
     }
 
     public void IsEnemyDead()
@@ -165,6 +176,12 @@ public class CombatScript : MonoBehaviour
         {
             enemyIsDead = true;
         }
+    }
+
+    public void EndPlayerTurn()
+    {
+        playerTurn = false;
+        enemyTurn = true;
     }
 
     #endregion
@@ -177,6 +194,7 @@ public class CombatScript : MonoBehaviour
         if (enemyTurn)
         {
             enemyTurn = false;
+            enemyDefenceText.text = "0";
 
             int[] possibleEnemyAttacks =
 {
@@ -217,6 +235,8 @@ public class CombatScript : MonoBehaviour
 
             playerHealthText.text = (playerHealth - currentAttack).ToString();
             playerHealth -= currentAttack;
+
+            enemyDefenceText.text = currentDefend.ToString();
 
             playerTurn = true;
         }
