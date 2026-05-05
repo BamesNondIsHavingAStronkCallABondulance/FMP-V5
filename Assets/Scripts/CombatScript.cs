@@ -2,6 +2,7 @@ using UnityEngine;
 using HarryGame;
 using TMPro;
 using Unity.VisualScripting;
+using System.Collections;
 
 public class CombatScript : MonoBehaviour
 {
@@ -9,12 +10,17 @@ public class CombatScript : MonoBehaviour
     public const string PLAYER_DEFENCE = "Player Defence";
 
     public GameObject enemyPosition;
+
     public TMP_Text enemyHealthText;
     public TMP_Text enemyDefenceText;
+    public TMP_Text enemyAttackText;
+
+
     public EnemyIndex currentEnemy;
     public EnemyIndex deathCultist;
     public EnemyIndex otherEnemy;
     public TMP_Text playerHealthText;
+    public TMP_Text playerDefenceText;
     public TMP_Text turnTrackerText;
 
     int playerHealth;
@@ -23,9 +29,10 @@ public class CombatScript : MonoBehaviour
     int currentAttack;
     int currentDefend;
 
-    bool enemyTurn;
+    //bool enemyTurn;
     bool playerTurn;
-    bool playerActionTaken;
+    public bool playerActionTaken;
+    bool dontSkip = false;
 
     CardIndex cardData;
     EnemyIndex enemyData;
@@ -37,14 +44,17 @@ public class CombatScript : MonoBehaviour
     private void Start()
     {
         playerHealth = PlayerPrefs.GetInt(PLAYER_HEALTH, 30);
+        playerDefence = 0;
 
         ResetEnemies();
 
         SpawningNewEnemy();
 
         enemyHealthText.text = currentEnemy.health.ToString();
+        playerHealthText.text = playerHealth.ToString();
+        playerDefenceText.text = playerDefence.ToString(); 
 
-        playerTurn = true;
+        playerTurn = false;
 
     }
 
@@ -109,8 +119,16 @@ public class CombatScript : MonoBehaviour
 
     public void AttackingEnemy()
     {
+
         if (playerTurn)
         {
+            bool turnStart = true;
+
+            if (turnStart)
+            {
+                playerActionTaken = false;
+            }
+
             if (playCardsScript.enemyIsSelected)
             {
                 if (playCardsScript.card1Selected && playCardsScript.cardIsPlayed)
@@ -126,25 +144,63 @@ public class CombatScript : MonoBehaviour
                     Card3Logic();
                 }
             }
+
+            enemyHealthText.text = currentEnemy.health.ToString();
+            enemyDefenceText.text = currentDefend.ToString();
+            enemyAttackText.text = currentAttack.ToString();
         }
 
-            void Card1Logic()
+        void Card1Logic()
+        {
+            if (handManagerScript.card1Type.text == "Attack")
             {
-                if (handManagerScript.card1Type.text == "attack")
-                {
-                    currentEnemy.health -= handManagerScript.cardData1.damage;
-                    enemyHealthText.text = currentEnemy.health.ToString();
+                int accountForEnemyShield = currentDefend - handManagerScript.cardData1.damage;
 
-                    playerActionTaken = true;
+                if (accountForEnemyShield < 0)
+                {
+                    currentEnemy.health += accountForEnemyShield;
+                    currentDefend = 0;
                 }
+                else
+                {
+                    currentDefend -= handManagerScript.cardData1.damage;
+                }
+
+                playerActionTaken = true;
             }
+
+            if (handManagerScript.card1Type.text == "Skill")
+            {
+                playerDefence += handManagerScript.cardData1.block;
+                playerDefenceText.text = playerDefence.ToString();
+
+                playerActionTaken = true;
+            }
+        }
 
         void Card2Logic()
         {
-            if (handManagerScript.card2Type.text == "attack")
+            if (handManagerScript.card2Type.text == "Attack")
             {
-                currentEnemy.health -= handManagerScript.cardData2.damage;
-                enemyHealthText.text = currentEnemy.health.ToString();
+                int accountForEnemyShield = currentDefend - handManagerScript.cardData2.damage;
+
+                if (accountForEnemyShield < 0)
+                {
+                    currentEnemy.health += accountForEnemyShield;
+                    currentDefend = 0;
+                }
+                else
+                {
+                    currentDefend -= handManagerScript.cardData2.damage;
+                }
+
+                playerActionTaken = true;
+            }
+
+            if (handManagerScript.card2Type.text == "Skill")
+            {
+                playerDefence += handManagerScript.cardData2.block;
+                playerDefenceText.text = playerDefence.ToString();
 
                 playerActionTaken = true;
             }
@@ -154,14 +210,25 @@ public class CombatScript : MonoBehaviour
         {
             if (handManagerScript.card3Type.text == "Attack")
             {
-                int accountForEnemyShield = handManagerScript.cardData3.damage - currentDefend;
+                int accountForEnemyShield = currentDefend - handManagerScript.cardData3.damage;
 
-                if (accountForEnemyShield > 0)
+                if (accountForEnemyShield < 0)
                 {
-                    currentEnemy.health -= accountForEnemyShield;
+                    currentEnemy.health += accountForEnemyShield;
+                    currentDefend = 0;
+                }
+                else
+                {
+                    currentDefend -= handManagerScript.cardData3.damage;
                 }
 
-                enemyHealthText.text = currentEnemy.health.ToString();
+                playerActionTaken = true;
+            }
+
+            if (handManagerScript.card3Type.text == "Skill")
+            {
+                playerDefence += handManagerScript.cardData3.block;
+                playerDefenceText.text = playerDefence.ToString();
 
                 playerActionTaken = true;
             }
@@ -180,8 +247,7 @@ public class CombatScript : MonoBehaviour
 
     public void EndPlayerTurn()
     {
-        playerTurn = false;
-        enemyTurn = true;
+            playerTurn = false;
     }
 
     #endregion
@@ -191,13 +257,35 @@ public class CombatScript : MonoBehaviour
     public void EnemyAttackLogic()
     {
 
-        if (enemyTurn)
+        if (!playerTurn)
         {
-            enemyTurn = false;
+
+            if (dontSkip)
+            {
+                int accountForShield = playerDefence - currentAttack;
+
+                if (accountForShield < 0)
+                {
+                    playerHealth += accountForShield;
+                }
+                else
+                {
+                    playerDefence -= currentAttack;
+                }
+
+                StartCoroutine(EnemyDelay());
+
+
+                playerDefence = 0;
+
+                playerHealthText.text = playerHealth.ToString();
+                playerDefenceText.text = playerDefence.ToString();
+            }
+
             enemyDefenceText.text = "0";
 
             int[] possibleEnemyAttacks =
-{
+            {
             currentEnemy.attack1, currentEnemy.attack2, currentEnemy.attack3, currentEnemy.attack4
             };
 
@@ -233,18 +321,32 @@ public class CombatScript : MonoBehaviour
                 }
             }
 
-            playerHealthText.text = (playerHealth - currentAttack).ToString();
-            playerHealth -= currentAttack;
+            if (!dontSkip)
+            {
+                playerTurn = true;
+            }
 
-            enemyDefenceText.text = currentDefend.ToString();
+            dontSkip = true;
 
-            playerTurn = true;
+            // enemyDefenceText.text = currentDefend.ToString();
+            // enemyAttackText.text = currentAttack.ToString();
         }
 
         //Goal is to randomly select 1 attack and one defnd from each array
         //If both options are null, select again until at least one option is not null;
         //COMPLETED
 
+    }
+
+    IEnumerator EnemyDelay()
+    {
+        print("before");
+
+        yield return new WaitForSeconds(3);
+
+        print("after");
+
+        playerTurn = true;
     }
 
     #endregion
