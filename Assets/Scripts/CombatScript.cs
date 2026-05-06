@@ -3,13 +3,15 @@ using HarryGame;
 using TMPro;
 using Unity.VisualScripting;
 using System.Collections;
-
+using UnityEngine.SceneManagement;
 public class CombatScript : MonoBehaviour
 {
     public const string PLAYER_HEALTH = "Player Health";
     public const string PLAYER_DEFENCE = "Player Defence";
 
     public GameObject enemyPosition;
+
+    public GameObject endRewardsPopUp;
 
     public TMP_Text enemyHealthText;
     public TMP_Text enemyDefenceText;
@@ -33,6 +35,7 @@ public class CombatScript : MonoBehaviour
     bool playerTurn;
     public bool playerActionTaken;
     bool dontSkip = false;
+    bool turnStart = true;
 
     CardIndex cardData;
     EnemyIndex enemyData;
@@ -64,6 +67,8 @@ public class CombatScript : MonoBehaviour
         EnemyAttackLogic();
         IsEnemyDead();
         TurnTracking();
+
+        CombatEndRewards();
     }
 
     public void TurnTracking()
@@ -122,11 +127,10 @@ public class CombatScript : MonoBehaviour
 
         if (playerTurn)
         {
-            bool turnStart = true;
-
             if (turnStart)
             {
                 playerActionTaken = false;
+                turnStart = false;
             }
 
             if (playCardsScript.enemyIsSelected)
@@ -247,7 +251,8 @@ public class CombatScript : MonoBehaviour
 
     public void EndPlayerTurn()
     {
-            playerTurn = false;
+        playerTurn = false;
+        turnStart = true;
     }
 
     #endregion
@@ -259,7 +264,6 @@ public class CombatScript : MonoBehaviour
 
         if (!playerTurn)
         {
-
             if (dontSkip)
             {
                 int accountForShield = playerDefence - currentAttack;
@@ -272,15 +276,14 @@ public class CombatScript : MonoBehaviour
                 {
                     playerDefence -= currentAttack;
                 }
-
-                StartCoroutine(EnemyDelay());
-
-
                 playerDefence = 0;
 
                 playerHealthText.text = playerHealth.ToString();
                 playerDefenceText.text = playerDefence.ToString();
+
+                dontSkip = false;
             }
+
 
             enemyDefenceText.text = "0";
 
@@ -357,12 +360,29 @@ public class CombatScript : MonoBehaviour
     {
         if (enemyIsDead)
         {
+            endRewardsPopUp.SetActive(true);
+
 
         }
+    }
+
+    public void UpgradeCard()
+    {
+
+    }
+
+    public void AddCardToDeck()
+    {
+
     }
     #endregion
 
     #region Go to next screen
+
+    void GoToNextScene()
+    {
+        
+    }
 
 
     #endregion
