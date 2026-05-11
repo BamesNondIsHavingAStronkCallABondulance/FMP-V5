@@ -28,7 +28,7 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 
     public bool card1Selected, card2Selected, card3Selected;
 
-    private float cardDelay = 1.5f;
+    private float cardDelay = 1f;
 
 
 
@@ -187,7 +187,7 @@ public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         {
             if (cardDelay <= 0)
             {
-                cardDelay = 1.5f;
+                cardDelay = 1f;
                 enemyIsSelected = false;
                 eventSystem.enabled = true;
                 cardIsPlayed = false;

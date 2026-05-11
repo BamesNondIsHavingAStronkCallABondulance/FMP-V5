@@ -17,10 +17,12 @@ public class CombatScript : MonoBehaviour
     public TMP_Text enemyDefenceText;
     public TMP_Text enemyAttackText;
 
+    public GameObject deathCultistGO, evilWizardGO, ghostKnightGO;
 
     public EnemyIndex currentEnemy;
     public EnemyIndex deathCultist;
-    public EnemyIndex otherEnemy;
+    public EnemyIndex evilWizard;
+    public EnemyIndex ghostKnight;
     public TMP_Text playerHealthText;
     public TMP_Text playerDefenceText;
     public TMP_Text turnTrackerText;
@@ -36,6 +38,8 @@ public class CombatScript : MonoBehaviour
     public bool playerActionTaken;
     bool dontSkip = false;
     bool turnStart = true;
+
+    string enemyToSpawn;
 
     CardIndex cardData;
     EnemyIndex enemyData;
@@ -93,29 +97,88 @@ public class CombatScript : MonoBehaviour
 
     public void SpawningNewEnemy()
     {
-        currentEnemy.health = deathCultist.health;
+        int spawnInt = Random.Range(0, 3); //What enemy spawns.  GET ANOTHER ENEMY, MAKE GHOST KNIGHT A BOSS
 
-        currentEnemy.attack1 = deathCultist.attack1;
-        currentEnemy.attack2 = deathCultist.attack2;
-        currentEnemy.attack3 = deathCultist.attack3;
-        currentEnemy.attack4 = deathCultist.attack4;
+        if (spawnInt == 0)
+        {
+            currentEnemy.health = deathCultist.health;
 
-        currentEnemy.defend1 = deathCultist.defend1;
-        currentEnemy.defend2 = deathCultist.defend2;
-        currentEnemy.defend3 = deathCultist.defend3;
-        currentEnemy.defend4 = deathCultist.defend4;
+            currentEnemy.attack1 = deathCultist.attack1;
+            currentEnemy.attack2 = deathCultist.attack2;
+            currentEnemy.attack3 = deathCultist.attack3;
+            currentEnemy.attack4 = deathCultist.attack4;
+
+            currentEnemy.defend1 = deathCultist.defend1;
+            currentEnemy.defend2 = deathCultist.defend2;
+            currentEnemy.defend3 = deathCultist.defend3;
+            currentEnemy.defend4 = deathCultist.defend4;
+             
+            deathCultistGO.SetActive(true);
+
+            SpawnDeathCultist();
+        }
+        if (spawnInt == 1)
+        {
+            currentEnemy.health = evilWizard.health;
+
+            currentEnemy.attack1 = evilWizard.attack1;
+            currentEnemy.attack2 = evilWizard.attack2;
+            currentEnemy.attack3 = evilWizard.attack3;
+            currentEnemy.attack4 = evilWizard.attack4;
+
+            currentEnemy.defend1 = evilWizard.defend1;
+            currentEnemy.defend2 = evilWizard.defend2;
+            currentEnemy.defend3 = evilWizard.defend3;
+            currentEnemy.defend4 = evilWizard.defend4;
+
+            evilWizardGO.SetActive(true);
+
+            SpawnEvilWizard();
+        }
+        if (spawnInt == 2)
+        {
+            currentEnemy.health = ghostKnight.health;
+
+            currentEnemy.attack1 = ghostKnight.attack1;
+            currentEnemy.attack2 = ghostKnight.attack2;
+            currentEnemy.attack3 = ghostKnight.attack3;
+            currentEnemy.attack4 = ghostKnight.attack4;
+
+            currentEnemy.defend1 = ghostKnight.defend1;
+            currentEnemy.defend2 = ghostKnight.defend2;
+            currentEnemy.defend3 = ghostKnight.defend3;
+            currentEnemy.defend4 = ghostKnight.defend4;
+
+            ghostKnightGO.SetActive(true);
+
+            SpawnGhostKnight();
+        }
     }
 
 
-    public void SpawnDeathCultist()
+    void SpawnDeathCultist()
     {
         currentEnemy.health = deathCultist.health;
         currentEnemy.enemySprite = deathCultist.enemySprite;
     }
-    
+    void SpawnGhostKnight()
+    {
+        currentEnemy.health = ghostKnight.health;
+        currentEnemy.enemySprite = ghostKnight.enemySprite;
+    }
+    void SpawnEvilWizard()
+    {
+        currentEnemy.health = evilWizard.health;
+        currentEnemy.enemySprite = evilWizard.enemySprite;
+    }
+
+
+
     public void ResetEnemies() //reset each scriptable object
     {
         deathCultist.health = 25;
+        ghostKnight.health = 60;
+        evilWizard.health = 20;
     }
 
     #endregion
@@ -322,6 +385,8 @@ public class CombatScript : MonoBehaviour
                 {
                     validAction = true;
                 }
+
+                print(currentDefendSelection);
             }
 
             if (!dontSkip)
@@ -360,9 +425,7 @@ public class CombatScript : MonoBehaviour
     {
         if (enemyIsDead)
         {
-            endRewardsPopUp.SetActive(true);
-
-
+            SceneManager.LoadScene(2);
         }
     }
 
