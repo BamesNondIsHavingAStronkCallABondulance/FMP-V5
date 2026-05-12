@@ -1,8 +1,5 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class ChooseDoor : MonoBehaviour //IPointerClickHandler
 {
@@ -18,7 +15,7 @@ public class ChooseDoor : MonoBehaviour //IPointerClickHandler
     string rightDoorOption;
     int rightDoorOptionInt;
 
-    bool combatEncounter, eventEncounter, bossEncounter, restEncounter;
+    bool lCombatEncounter, lEventEncounter, lBossEncounter, lRestEncounter, rCombatEncounter, rEventEncounter, rBossEncounter, rRestEncounter;
 
     int floorNumber;
 
@@ -35,19 +32,6 @@ public class ChooseDoor : MonoBehaviour //IPointerClickHandler
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            EncounterSetsLogic();
-        }
-    }
-
-    public void ButtonTest()
-    {
-        print("hello");
-    }
-
     void EncounterSetsLogic()
     {
         floorNumber = 2;
@@ -57,7 +41,6 @@ public class ChooseDoor : MonoBehaviour //IPointerClickHandler
         {
             leftDoorOptionInt = Random.Range(0, possibleEncounterStrings.Length - 2);
             leftDoorOption = possibleEncounterStrings[leftDoorOptionInt];
-            print(leftDoorOption);
 
             while (rerollEncounter)
             {
@@ -66,7 +49,6 @@ public class ChooseDoor : MonoBehaviour //IPointerClickHandler
                 {
                     rerollEncounter = false;
                     rightDoorOption = possibleEncounterStrings[rightDoorOptionInt];
-                    print(rightDoorOption);
                 }
                 else
                 {
@@ -77,20 +59,20 @@ public class ChooseDoor : MonoBehaviour //IPointerClickHandler
 
         if (floorNumber > 1 && floorNumber < 5)
         {
-            leftDoorOptionInt = Random.Range(0, possibleEncounterStrings.Length - 1);
-            leftDoorOption = possibleEncounterStrings[leftDoorOptionInt];
-            print(leftDoorOption);
+            //leftDoorOptionInt = Random.Range(0, possibleEncounterStrings.Length - 1);
+            //leftDoorOption = possibleEncounterStrings[leftDoorOptionInt];
 
+            leftDoorOption = possibleEncounterStrings[0];
 
             while (rerollEncounter)
             {
-                rightDoorOptionInt = Random.Range(0, possibleEncounterStrings.Length - 1);
+                // rightDoorOptionInt = Random.Range(0, possibleEncounterStrings.Length - 1);
+                rightDoorOption = possibleEncounterStrings[2];
 
                 if (rightDoorOptionInt != leftDoorOptionInt)
                 {
                     rerollEncounter = false;
                     rightDoorOption = possibleEncounterStrings[rightDoorOptionInt];
-                    print(rightDoorOption);
                 }
                 else
                 {
@@ -101,7 +83,8 @@ public class ChooseDoor : MonoBehaviour //IPointerClickHandler
 
         if (floorNumber == 5)
         {
-            bossEncounter = true;
+            lBossEncounter = true;
+            rBossEncounter = true;
 
             leftDoorOptionInt = 3;
             leftDoorOption = possibleEncounterStrings[leftDoorOptionInt];
@@ -182,11 +165,27 @@ public class ChooseDoor : MonoBehaviour //IPointerClickHandler
         }
     }
 
-    public void UpdateScene()
+    public void UpdateLeftScene()
     {
-        if (combatEncounter == true)
+        if (lCombatEncounter)
         {
             SceneManager.LoadScene(1);
+        }
+        if (lRestEncounter)
+        {
+            SceneManager.LoadScene(3);
+        }
+    }
+
+    public void UpdateRightScene()
+    {
+        if (rCombatEncounter)
+        {
+            SceneManager.LoadScene(1);
+        }
+        if (rRestEncounter)
+        {
+            SceneManager.LoadScene(3);
         }
     }
 
@@ -194,31 +193,31 @@ public class ChooseDoor : MonoBehaviour //IPointerClickHandler
     {
         if (leftDoorOption == "combat")
         {
-            combatEncounter = true;
-            bossEncounter = false;
-            restEncounter = false;
-            eventEncounter = false;
+            lCombatEncounter = true;
+            lBossEncounter = false;
+            lRestEncounter = false;
+            lEventEncounter = false;
         }
         if (leftDoorOption == "boss")
         {
-            combatEncounter = false;
-            bossEncounter = true;
-            restEncounter = false;
-            eventEncounter = false;
+            lCombatEncounter = false;
+            lBossEncounter = true;
+            lRestEncounter = false;
+            lEventEncounter = false;
         }
         if (leftDoorOption == "rest")
         {
-            combatEncounter = false;
-            bossEncounter = false;
-            restEncounter = true;
-            eventEncounter = false;
+            lCombatEncounter = false;
+            lBossEncounter = false;
+            lRestEncounter = true;
+            lEventEncounter = false;
         }
         if (leftDoorOption == "event")
         {
-            combatEncounter = false;
-            bossEncounter = false;
-            restEncounter = false;
-            eventEncounter = true;
+            lCombatEncounter = false;
+            lBossEncounter = false;
+            lRestEncounter = false;
+            lEventEncounter = true;
         }
     }
 
@@ -226,31 +225,31 @@ public class ChooseDoor : MonoBehaviour //IPointerClickHandler
     {
         if (rightDoorOption == "combat")
         {
-            combatEncounter = true;
-            bossEncounter = false;
-            restEncounter = false;
-            eventEncounter = false;
+            rCombatEncounter = true;
+            rBossEncounter = false;
+            rRestEncounter = false;
+            rEventEncounter = false;
         }
         if (rightDoorOption == "boss")
         {
-            combatEncounter = false;
-            bossEncounter = true;
-            restEncounter = false;
-            eventEncounter = false;
+            rCombatEncounter = false;
+            rBossEncounter = true;
+            rRestEncounter = false;
+            rEventEncounter = false;
         }
         if (rightDoorOption == "rest")
         {
-            combatEncounter = false;
-            bossEncounter = false;
-            restEncounter = true;
-            eventEncounter = false;
+            rCombatEncounter = false;
+            rBossEncounter = false;
+            rRestEncounter = true;
+            rEventEncounter = false;
         }
         if (rightDoorOption == "event")
         {
-            combatEncounter = false;
-            bossEncounter = false;
-            restEncounter = false;
-            eventEncounter = true;
+            rCombatEncounter = false;
+            rBossEncounter = false;
+            rRestEncounter = false;
+            rEventEncounter = true;
         }
     }
     #endregion 

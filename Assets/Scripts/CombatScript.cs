@@ -1,13 +1,12 @@
 using UnityEngine;
 using HarryGame;
 using TMPro;
-using Unity.VisualScripting;
 using System.Collections;
 using UnityEngine.SceneManagement;
 public class CombatScript : MonoBehaviour
 {
-    public const string PLAYER_HEALTH = "Player Health";
-    public const string PLAYER_DEFENCE = "Player Defence";
+    //public const string PLAYER_HEALTH = "Player Health";
+    //public const string PLAYER_DEFENCE = "Player Defence";
 
     public GameObject enemyPosition;
 
@@ -27,7 +26,7 @@ public class CombatScript : MonoBehaviour
     public TMP_Text playerDefenceText;
     public TMP_Text turnTrackerText;
 
-    int playerHealth;
+    public int playerHealth;
     int playerDefence;
 
     int currentAttack;
@@ -50,7 +49,8 @@ public class CombatScript : MonoBehaviour
 
     private void Start()
     {
-        playerHealth = PlayerPrefs.GetInt(PLAYER_HEALTH, 30);
+        playerHealth = PlayerPrefs.GetInt("playerHealth");
+
         playerDefence = 0;
 
         ResetEnemies();
@@ -73,6 +73,8 @@ public class CombatScript : MonoBehaviour
         TurnTracking();
 
         CombatEndRewards();
+
+        PlayerPrefs.SetInt("playerHealth", playerHealth);
     }
 
     public void TurnTracking()
@@ -385,8 +387,6 @@ public class CombatScript : MonoBehaviour
                 {
                     validAction = true;
                 }
-
-                print(currentDefendSelection);
             }
 
             if (!dontSkip)

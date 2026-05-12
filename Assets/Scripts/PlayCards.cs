@@ -1,11 +1,5 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
-
 public class PlayCards : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
 

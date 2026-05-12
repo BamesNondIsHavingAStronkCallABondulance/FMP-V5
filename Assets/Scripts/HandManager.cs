@@ -1,10 +1,8 @@
-using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 using HarryGame;
-using Unity.VisualScripting;
 
 public class HandManager : MonoBehaviour
 {
